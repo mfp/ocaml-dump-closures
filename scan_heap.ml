@@ -66,10 +66,12 @@ let string_of_delta ((c1, b1, _, _) as x) ((c2, b2, _, _) as y) =
       (String.concat "\n" @@ List.map string_of_closure_delta @@ d1)
       (String.concat "\n" @@ List.map string_of_closure_delta @@ d2)
 
+let (>>=) = Lwt.bind
+
 let report_leaks ?closures:(dump_closures=false) f =
   let d0 = closures () in
   let s0 = Gc.full_major (); Objsize.objsize_roots () in
-  lwt y  = f () in
+  f () >>= fun y ->
   let () = Gc.full_major () in
   let s1 = Objsize.objsize_roots () in
   let d1 = closures () in
