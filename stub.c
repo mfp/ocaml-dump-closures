@@ -3,6 +3,7 @@
 #include <caml/mlvalues.h>
 #include <caml/alloc.h>
 #include <caml/memory.h>
+#include <caml/fail.h>
 #include <stdio.h>
 
 /* taken from OCaml sources for 64-bit platforms */
