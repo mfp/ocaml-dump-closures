@@ -102,21 +102,18 @@ CAMLprim value dump_closure_addresses(value unit)
                    closures = p;
                }
                closures[nclosures++] = Val_long(Code_val(Val_hp(hp)));
+
+               /* comment out to disable param capture */
                capture_params(v, &closures2, &nclosures2, &capa2, 0);
                count++;
                bytes += size;
            }
-               /* printf("%p %zd\n", Code_val(Val_hp(hp)), size); */
-           /* if(Tag_hd(hd) == String_tag) */
-               /* printf("%lx %s\n", Val_hp(hp), String_val(Val_hp(hp))); */
            hp += Bhsize_hd(hd);
        } while(hp < limit);
 
        chunk = Chunk_next(chunk);
        if(!chunk) break;
-       /* printf("next chunk %p\n", chunk); */
        limit = chunk + Chunk_size(chunk);
-       /* printf("next chunk %p, limit %p\n", chunk, limit); */
  } while(chunk);
 
  addresses = caml_alloc(nclosures, 0);
